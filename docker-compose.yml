@@ -1,0 +1,19 @@
+version: '3.8'
+services:
+  questarr:
+    image: ghcr.io/doezer/questarr:latest
+    container_name: questarr
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./data:/app/data
+      - ./games:/games
+    environment:
+      SQLITE_DB_PATH: /app/data/sqlite.db
+      TZ: Europe/Madrid
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
